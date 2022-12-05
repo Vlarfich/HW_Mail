@@ -75,8 +75,8 @@ public final class PostOfficeGenerator {
     private static final ArrayList<Character> categories = new ArrayList<>();
     private static final ArrayList<String> bikeModels = new ArrayList<>();
 
+    //static final Logger logger = LogManager.getLogger("D:\\Ecl\\HW mail\\src\\log4j2.xml");
     static final Logger logger = LogManager.getLogger(PostOfficeGenerator.class.getName());
-
     static {
         positions.addAll(Arrays.asList("Manager", "Consultant", "Security", "Cleaner", "Accountant", "Cashier"));
         planeModels.addAll(Arrays.asList("BOEING", "IS-21", "HELICOPTER", "MI-8"));
