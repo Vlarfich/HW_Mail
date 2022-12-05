@@ -11,12 +11,13 @@ import com.solvd.mail.person.PostOfficeWorker;
 import com.solvd.mail.vehichle.Bicycle;
 import com.solvd.mail.vehichle.Car;
 import com.solvd.mail.vehichle.Plane;
+import org.apache.log4j.LogManager;
+import org.apache.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.logging.Level;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
+
 
 public final class PostOfficeGenerator {
     private enum NAMES {
@@ -74,7 +75,7 @@ public final class PostOfficeGenerator {
     private static final ArrayList<Character> categories = new ArrayList<>();
     private static final ArrayList<String> bikeModels = new ArrayList<>();
 
-    private final static Logger logger = Logger.getLogger("D:\\Ecl\\HW mail\\src\\log4j2.properties");
+    static final Logger logger = LogManager.getLogger(PostOfficeGenerator.class.getName());
 
     static {
         positions.addAll(Arrays.asList("Manager", "Consultant", "Security", "Cleaner", "Accountant", "Cashier"));
@@ -95,7 +96,7 @@ public final class PostOfficeGenerator {
         }
         catch (EPostOWNameIsNULL e){
             //Logger.getAnonymousLogger().log(Level.FINE, "POW NAME WAS NULL");
-            logger.log(Level.FINE, "POW NAME WAS NULL");
+            logger.info("POW NAME WAS NULL");
             name = "POW NAME WAS NULL";
             System.err.println(name);
         }
@@ -127,7 +128,7 @@ public final class PostOfficeGenerator {
         }
         catch (EPilotNameIsNULL e){
             //Logger.getAnonymousLogger().log(Level.FINE, "PILOT NAME WAS NULL");
-            logger.log(Level.FINE, "PILOT NAME WAS NULL");
+            logger.info("PILOT NAME WAS NULL");
             name = "PILOT NAME WAS NULL";
             System.err.println(name);
         }
@@ -161,7 +162,7 @@ public final class PostOfficeGenerator {
         }
         catch (ExcDriverNameIsNULL e){
             //Logger.getAnonymousLogger().log(Level.FINE, "DRIVER NAME WAS NULL");
-            logger.log(Level.FINE, "DRIVER NAME WAS NULL");
+            logger.info("DRIVER NAME WAS NULL");
             name = "DRIVER NAME WAS NULL";
             System.err.println(name);
 
@@ -200,7 +201,7 @@ public final class PostOfficeGenerator {
         }
         catch (EDeliveryManNameIsNULL e){
             //Logger.getAnonymousLogger().log(Level.FINE, "DELIVERYMAN NAME WAS NULL");
-            logger.log(Level.FINE, "DELIVERYMAN NAME WAS NULL");
+            logger.info( "DELIVERYMAN NAME WAS NULL");
             name = "DELIVERYMAN NAME WAS NULL";
             System.err.println(name);
         }
@@ -246,17 +247,17 @@ public final class PostOfficeGenerator {
         PostOffice postOffice = new PostOffice(name, floor, sqft, open, closing, pow, cdd, pdd);
         if (postOffice.getName() == null) {
             System.err.println("POST OFFICE NAME IS NULL");
-            logger.log(Level.SEVERE,"POST OFFICE NAME IS NULL");
+            logger.fatal("POST OFFICE NAME IS NULL");
             throw new EBuildingNameIsNULL("POST OFFICE NAME IS NULL");
         }
         if (cdd.getName() == null) {
             System.err.println("CAR DELIVERY DEPARTMENT NAME IS NULL");
-            logger.log(Level.SEVERE,"CAR DELIVERY DEPARTMENT NAME IS NULL");
+            logger.fatal("CAR DELIVERY DEPARTMENT NAME IS NULL");
             throw new EBuildingNameIsNULL("CAR DELIVERY DEPARTMENT NAME IS NULL");
         }
         if (pdd.getName() == null) {
             System.err.println("PLANE DELIVERY DEPARTMENT NAME IS NULL");
-            logger.log(Level.SEVERE,"PLANE DELIVERY DEPARTMENT NAME IS NULL");
+            logger.fatal("PLANE DELIVERY DEPARTMENT NAME IS NULL");
             throw new EBuildingNameIsNULL("PLANE DELIVERY DEPARTMENT NAME IS NULL");
         }
         int index = (int) (Math.random() * 20) + 2;
