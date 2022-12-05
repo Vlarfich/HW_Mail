@@ -3,6 +3,7 @@ package com.solvd.mail.main;
 import com.solvd.mail.buildings.CarDeliveryDepartment;
 import com.solvd.mail.buildings.PlaneDeliveryDepartment;
 import com.solvd.mail.buildings.PostOffice;
+import com.solvd.mail.exceptions.*;
 import com.solvd.mail.person.DeliveryMan;
 import com.solvd.mail.person.Driver;
 import com.solvd.mail.person.Pilot;
@@ -13,6 +14,9 @@ import com.solvd.mail.vehichle.Plane;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 public final class PostOfficeGenerator {
     private enum NAMES {
@@ -25,6 +29,9 @@ public final class PostOfficeGenerator {
             for (NAMES i : values()) {
                 cities.add(i.name());
             }
+
+            cities.add(null);
+
             return cities;
         }
 
@@ -46,6 +53,9 @@ public final class PostOfficeGenerator {
             for (OFFICE_NAMES i : values()) {
                 cities.add(i.name());
             }
+
+            cities.add(null);
+
             return cities;
         }
 
@@ -63,6 +73,9 @@ public final class PostOfficeGenerator {
     private static final ArrayList<String> carModels = new ArrayList<>();
     private static final ArrayList<Character> categories = new ArrayList<>();
     private static final ArrayList<String> bikeModels = new ArrayList<>();
+
+    private final static Logger logger = Logger.getLogger("D:\\Ecl\\HW mail\\src\\log4j2.properties");
+
     static {
         positions.addAll(Arrays.asList("Manager", "Consultant", "Security", "Cleaner", "Accountant", "Cashier"));
         planeModels.addAll(Arrays.asList("BOEING", "IS-21", "HELICOPTER", "MI-8"));
@@ -73,7 +86,19 @@ public final class PostOfficeGenerator {
 
 
     public static PostOfficeWorker getPostOfficeWorker() {
-        String name = NAMES.get((int) (Math.random() * NAMES.size()));
+        String name;
+        try {
+            name = NAMES.get((int) (Math.random() * NAMES.size()));
+            if (name == null) {
+                throw new EPostOWNameIsNULL("POW NAME IS NULL");
+            }
+        }
+        catch (EPostOWNameIsNULL e){
+            //Logger.getAnonymousLogger().log(Level.FINE, "POW NAME WAS NULL");
+            logger.log(Level.FINE, "POW NAME WAS NULL");
+            name = "POW NAME WAS NULL";
+            System.err.println(name);
+        }
         int age = (int) (Math.random() * 40) + 20;
         int experience = age - 20 - (int) (Math.random() * (age - 20));
         int yearsOfWork = experience / 2;
@@ -93,7 +118,19 @@ public final class PostOfficeGenerator {
     }
 
     public static Pilot getPilot() {
-        String name = NAMES.get((int) (Math.random() * NAMES.size()));
+        String name ;
+        try {
+            name = NAMES.get((int) (Math.random() * NAMES.size()));
+            if (name == null) {
+                throw new EPilotNameIsNULL("PILOT NAME IS NULL");
+            }
+        }
+        catch (EPilotNameIsNULL e){
+            //Logger.getAnonymousLogger().log(Level.FINE, "PILOT NAME WAS NULL");
+            logger.log(Level.FINE, "PILOT NAME WAS NULL");
+            name = "PILOT NAME WAS NULL";
+            System.err.println(name);
+        }
         int age = (int) (Math.random() * 40) + 20;
         int experience = age - 20 - (int) (Math.random() * (age - 20));
         int yearsOfWork = experience / 2;
@@ -115,8 +152,20 @@ public final class PostOfficeGenerator {
     }
 
     public static Driver getDriver() {
+        String name;
+        try {
+            name = NAMES.get((int) (Math.random() * NAMES.size()));
+            if (name == null) {
+                throw new ExcDriverNameIsNULL("DRIVER NAME IS NULL");
+            }
+        }
+        catch (ExcDriverNameIsNULL e){
+            //Logger.getAnonymousLogger().log(Level.FINE, "DRIVER NAME WAS NULL");
+            logger.log(Level.FINE, "DRIVER NAME WAS NULL");
+            name = "DRIVER NAME WAS NULL";
+            System.err.println(name);
 
-        String name = NAMES.get((int) (Math.random() * NAMES.size()));
+        }
         int age = (int) (Math.random() * 40) + 20;
         int experience = age - 20 - (int) (Math.random() * (age - 20));
         int yearsOfWork = experience / 2;
@@ -142,7 +191,19 @@ public final class PostOfficeGenerator {
     }
 
     public static DeliveryMan getDeliveryMan() {
-        String name = NAMES.get((int) (Math.random() * NAMES.size()));
+        String name;
+        try {
+            name = NAMES.get((int) (Math.random() * NAMES.size()));
+            if (name == null) {
+                throw new EDeliveryManNameIsNULL("DELIVERYMAN NAME IS NULL");
+            }
+        }
+        catch (EDeliveryManNameIsNULL e){
+            //Logger.getAnonymousLogger().log(Level.FINE, "DELIVERYMAN NAME WAS NULL");
+            logger.log(Level.FINE, "DELIVERYMAN NAME WAS NULL");
+            name = "DELIVERYMAN NAME WAS NULL";
+            System.err.println(name);
+        }
         int age = (int) (Math.random() * 10) + 20;
         int experience = age - 20 - (int) (Math.random() * (age - 10));
         int yearsOfWork = experience / 2;
@@ -173,14 +234,31 @@ public final class PostOfficeGenerator {
         return res;
     }
 
-    public static PostOffice getPostOffice() {
+    public static PostOffice getPostOffice() throws EBuildingNameIsNULL {
         String name = OFFICE_NAMES.get((int) (Math.random() * OFFICE_NAMES.size()));
         int floor = (int) (Math.random() * 5) + 1;
         int sqft = (int) (Math.random() * 200) + 100;
         int open = (int) (Math.random() * 4) + 5;
         int closing = (int) (Math.random() * (22 - open)) + open + 2;
         PostOfficeWorker pow = getPostOfficeWorker();
-        PostOffice postOffice = new PostOffice(name, floor, sqft, open, closing, pow, getCarDeliveryDepartment(), getPlaneDeliveryDepartment());
+        CarDeliveryDepartment cdd = getCarDeliveryDepartment();
+        PlaneDeliveryDepartment pdd = getPlaneDeliveryDepartment();
+        PostOffice postOffice = new PostOffice(name, floor, sqft, open, closing, pow, cdd, pdd);
+        if (postOffice.getName() == null) {
+            System.err.println("POST OFFICE NAME IS NULL");
+            logger.log(Level.SEVERE,"POST OFFICE NAME IS NULL");
+            throw new EBuildingNameIsNULL("POST OFFICE NAME IS NULL");
+        }
+        if (cdd.getName() == null) {
+            System.err.println("CAR DELIVERY DEPARTMENT NAME IS NULL");
+            logger.log(Level.SEVERE,"CAR DELIVERY DEPARTMENT NAME IS NULL");
+            throw new EBuildingNameIsNULL("CAR DELIVERY DEPARTMENT NAME IS NULL");
+        }
+        if (pdd.getName() == null) {
+            System.err.println("PLANE DELIVERY DEPARTMENT NAME IS NULL");
+            logger.log(Level.SEVERE,"PLANE DELIVERY DEPARTMENT NAME IS NULL");
+            throw new EBuildingNameIsNULL("PLANE DELIVERY DEPARTMENT NAME IS NULL");
+        }
         int index = (int) (Math.random() * 20) + 2;
         for (int i = 0; i < index; i++)
             postOffice.addWorker(getDeliveryMan());

@@ -3,6 +3,7 @@ package com.solvd.mail.main;
 import com.solvd.mail.buildings.CarDeliveryDepartment;
 import com.solvd.mail.buildings.PlaneDeliveryDepartment;
 import com.solvd.mail.buildings.PostOffice;
+import com.solvd.mail.exceptions.EBuildingNameIsNULL;
 import com.solvd.mail.parcel.Deliverable;
 import com.solvd.mail.parcel.Letter;
 import com.solvd.mail.parcel.Package;
@@ -14,15 +15,17 @@ import com.solvd.mail.vehichle.Bicycle;
 import com.solvd.mail.vehichle.Car;
 import com.solvd.mail.vehichle.Plane;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
+import java.util.logging.LogManager;
+import java.util.logging.Logger;
 
 public class Main {
 
-
-    public static void main(String[] args) {
+    public static void main(String[] args) throws EBuildingNameIsNULL {
         Menu();
     }
 
@@ -36,7 +39,7 @@ public class Main {
         return true;
     }
 
-    public static boolean Menu() {
+    public static boolean Menu() throws EBuildingNameIsNULL {
         String plank = "\n-------------------------------------------------------------------------\t";
         Scanner sc = new Scanner(System.in);
         PostOffice postOffice = PostOfficeGenerator.getPostOffice();
