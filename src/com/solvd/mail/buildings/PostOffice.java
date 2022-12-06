@@ -428,5 +428,17 @@ public class PostOffice extends Building {
         return sendingDay();
     }
 
+    public String getWorkers(){
+        String res = "";
+        for(PostOfficeWorker s : postOfficeWorkers){
+            res += s.toString() + "\n";
+        }
+        for(DeliveryMan s : deliveryMEN){
+            res += s.toString() + "\n";
+        }
+        res += carDeliveryDepartment.getDrivers();
+        res += planeDeliveryDepartment.getPilots();
+        return res;
+    }
 
 }

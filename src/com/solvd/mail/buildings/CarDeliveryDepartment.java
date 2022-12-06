@@ -84,4 +84,12 @@ public class CarDeliveryDepartment extends Building {
         return sentSMTHG;
     }
 
+    public String getDrivers(){
+        String res = "";
+        for(Driver s : drivers){
+            res += s.toString() + "\n";
+        }
+        return res;
+    }
+
 }

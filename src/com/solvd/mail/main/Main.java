@@ -36,7 +36,8 @@ public class Main {
                 * (3) : GENERATE AND ADD PACKAGE
                 * (4) : SENDING DAY
                 * (5) : ADD WORKERS TO OFFICE
-                * (6) : EXIT""");
+                * (6) : PRINT WORKERS
+                * (7) : EXIT""");
         return true;
     }
 
@@ -79,9 +80,12 @@ public class Main {
                     postOffice.addWorker(PostOfficeGenerator.getDriver());
                     postOffice.addWorker(PostOfficeGenerator.getPilot());
                 }
-                default -> choice = 6;
+                case 6 -> {
+                    System.out.println(postOffice.getWorkers());
+                }
+                default -> choice = 7;
             }
-        } while (choice != 6);
+        } while (choice != 7);
         System.out.println(plank + "\n                                              * YOUR TOTAL BILL :  " +
                 totalCost + "$\t");
         return totalCost != 0;

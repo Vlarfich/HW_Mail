@@ -85,4 +85,12 @@ public class PlaneDeliveryDepartment extends Building {
         return sentSMTHG;
     }
 
+    public String getPilots(){
+        String res = "";
+        for(Pilot s : pilots){
+            res += s.toString() + "\n";
+        }
+        return res;
+    }
+
 }
