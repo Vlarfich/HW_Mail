@@ -14,23 +14,25 @@ import com.solvd.mail.person.PostOfficeWorker;
 import com.solvd.mail.vehichle.Bicycle;
 import com.solvd.mail.vehichle.Car;
 import com.solvd.mail.vehichle.Plane;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Scanner;
-import java.util.logging.LogManager;
-import java.util.logging.Logger;
 
 public class Main {
 
+    static final Logger logger = LogManager.getLogger(Main.class);
     public static void main(String[] args) throws EBuildingNameIsNULL {
         Menu();
     }
 
     public static boolean printMenu() {
-        System.out.println("""
+        logger.info("""
+                
                 * (1) : PRINT INFORMATION
                 * (2) : GENERATE AND ADD LETTER
                 * (3) : GENERATE AND ADD PACKAGE
@@ -52,26 +54,26 @@ public class Main {
             choice = sc.nextInt();
             switch (choice) {
                 case 1 -> {
-                    System.out.println(plank + "\n" +
+                    logger.info(plank + "\n" +
                             postOffice + plank + "\n                                              * YOUR TOTAL BILL :  " +
                             totalCost + "$\t");
                 }
                 case 2 -> {
                     Letter l = DeliverableGenerator.getLetter();
                     totalCost += postOffice.send(l);
-                    System.out.println("Generated Letter: " + l);
+                    logger.info("\nGenerated Letter: " + l);
                 }
                 case 3 -> {
                     Package p = DeliverableGenerator.getPackage();
                     totalCost += postOffice.send(p);
-                    System.out.println("Generated Package: " + p);
+                    logger.info("\nGenerated Package: " + p);
                 }
                 case 4 -> {
                     boolean success = postOffice.sendingDay();
                     if (success) {
-                        System.out.println("   *** Sending day went successfully ***");
+                        logger.info("\n   *** Sending day went successfully ***");
                     } else {
-                        System.out.println(("  *** Nothing was sent today ***"));
+                        logger.info("\n  *** Nothing was sent today ***");
                     }
                 }
                 case 5 -> {
@@ -81,12 +83,12 @@ public class Main {
                     postOffice.addWorker(PostOfficeGenerator.getPilot());
                 }
                 case 6 -> {
-                    System.out.println(postOffice.getWorkers());
+                    logger.info("\n" + postOffice.getWorkers());
                 }
                 default -> choice = 7;
             }
         } while (choice != 7);
-        System.out.println(plank + "\n                                              * YOUR TOTAL BILL :  " +
+        logger.info(plank + "\n                                              * YOUR TOTAL BILL :  " +
                 totalCost + "$\t");
         return totalCost != 0;
     }

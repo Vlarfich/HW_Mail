@@ -159,8 +159,6 @@ public final class PostOfficeGenerator {
         } catch (ExcDriverNameIsNULL e) {
             logger.info(e.getMessage());
             name = e.getMessage();
-            //System.err.println(name);
-
         }
         int age = (int) (Math.random() * 40) + 20;
         int experience = age - 20 - (int) (Math.random() * (age - 20));
@@ -194,9 +192,8 @@ public final class PostOfficeGenerator {
                 throw new EDeliveryManNameIsNULL("DELIVERYMAN NAME IS NULL");
             }
         } catch (EDeliveryManNameIsNULL e) {
-            logger.info(e.getMessage());
+            logger.warn(e.getMessage());
             name = e.getMessage();
-            //System.err.println(name);
         }
         int age = (int) (Math.random() * 10) + 20;
         int experience = age - 20 - (int) (Math.random() * (age - 10));

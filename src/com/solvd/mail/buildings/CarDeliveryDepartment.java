@@ -5,7 +5,7 @@ import com.solvd.mail.parcel.Package;
 import com.solvd.mail.person.Driver;
 
 import java.util.ArrayList;
-
+import org.apache.logging.log4j.LogManager;
 public class CarDeliveryDepartment extends Building {
     private int amountOfCars;
     private int amountOfDrivers;
@@ -55,7 +55,7 @@ public class CarDeliveryDepartment extends Building {
         probability *= 100;
         probability /= drivars1.size();
 
-        System.out.println("Car delivery probability = " + probability);
+        LogManager.getLogger(CarDeliveryDepartment.class).info("Car delivery probability = " + probability);
 
         boolean sentSMTHG = false;
 

@@ -4,6 +4,7 @@ import com.solvd.mail.parcel.Letter;
 import com.solvd.mail.parcel.Package;
 import com.solvd.mail.person.Driver;
 import com.solvd.mail.person.Pilot;
+import org.apache.logging.log4j.LogManager;
 
 import java.util.ArrayList;
 
@@ -45,8 +46,7 @@ public class PlaneDeliveryDepartment extends Building {
     }
 
     public final boolean sendingDay(ArrayList<Letter> letters, ArrayList<Package> packages) {
-        if (letters == null && packages == null)
-            return false;
+        if (letters == null && packages == null) return false;
 
         ArrayList<Pilot> pilots1 = new ArrayList<>(pilots);
         double probability = 0;
@@ -56,7 +56,7 @@ public class PlaneDeliveryDepartment extends Building {
         probability *= 100;
         probability /= pilots1.size();
 
-        System.out.println("Plane delivery probability = " + probability);
+        LogManager.getLogger(CarDeliveryDepartment.class).info("Plane delivery probability = " + probability);
 
         boolean sentSMTHG = false;
 
@@ -66,8 +66,7 @@ public class PlaneDeliveryDepartment extends Building {
                 sentSMTHG = true;
                 letter.setDelivered(true);
             } else {
-                if (!letter.isDelivered())
-                    letter.setDelivered(false);
+                if (!letter.isDelivered()) letter.setDelivered(false);
             }
         }
 
@@ -77,17 +76,16 @@ public class PlaneDeliveryDepartment extends Building {
                 sentSMTHG = true;
                 aPackage.setDelivered(true);
             } else {
-                if (!aPackage.isDelivered())
-                    aPackage.setDelivered(false);
+                if (!aPackage.isDelivered()) aPackage.setDelivered(false);
             }
         }
 
         return sentSMTHG;
     }
 
-    public String getPilots(){
+    public String getPilots() {
         String res = "";
-        for(Pilot s : pilots){
+        for (Pilot s : pilots) {
             res += s.toString() + "\n";
         }
         return res;
