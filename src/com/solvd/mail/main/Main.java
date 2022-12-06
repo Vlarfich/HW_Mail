@@ -35,7 +35,8 @@ public class Main {
                 * (2) : GENERATE AND ADD LETTER
                 * (3) : GENERATE AND ADD PACKAGE
                 * (4) : SENDING DAY
-                * (5) : EXIT""");
+                * (5) : ADD WORKERS TO OFFICE
+                * (6) : EXIT""");
         return true;
     }
 
@@ -72,9 +73,15 @@ public class Main {
                         System.out.println(("  *** Nothing was sent today ***"));
                     }
                 }
-                default -> choice = 5;
+                case 5 -> {
+                    postOffice.addWorker(PostOfficeGenerator.getDeliveryMan());
+                    postOffice.addWorker(PostOfficeGenerator.getPostOfficeWorker());
+                    postOffice.addWorker(PostOfficeGenerator.getDriver());
+                    postOffice.addWorker(PostOfficeGenerator.getPilot());
+                }
+                default -> choice = 6;
             }
-        } while (choice != 5);
+        } while (choice != 6);
         System.out.println(plank + "\n                                              * YOUR TOTAL BILL :  " +
                 totalCost + "$\t");
         return totalCost != 0;

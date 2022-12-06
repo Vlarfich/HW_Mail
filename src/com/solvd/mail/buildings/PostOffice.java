@@ -3,6 +3,8 @@ package com.solvd.mail.buildings;
 import com.solvd.mail.parcel.Letter;
 import com.solvd.mail.parcel.Package;
 import com.solvd.mail.person.DeliveryMan;
+import com.solvd.mail.person.Driver;
+import com.solvd.mail.person.Pilot;
 import com.solvd.mail.person.PostOfficeWorker;
 
 import java.util.ArrayList;
@@ -155,6 +157,13 @@ public class PostOffice extends Building {
         deliveryMEN.add(dm);
     }
 
+    public void addWorker(Driver d) {
+        carDeliveryDepartment.addDriver(d);
+    }
+
+    public void addWorker(Pilot p) {
+        planeDeliveryDepartment.addPilot(p);
+    }
 
     public int send(Letter letter) {
         int cost;
