@@ -16,6 +16,7 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 
 
 public final class PostOfficeGenerator {
@@ -79,6 +80,7 @@ public final class PostOfficeGenerator {
     //static final Logger logger = Logger.getLogger(PostOfficeGenerator.class.getName());
     static {
         positions.addAll(Arrays.asList("Manager", "Consultant", "Security", "Cleaner", "Accountant", "Cashier"));
+        positions.sort(Comparator.naturalOrder());
         planeModels.addAll(Arrays.asList("BOEING", "IS-21", "HELICOPTER", "MI-8"));
         carModels.addAll(Arrays.asList("NISSAN", "BMW", "HYUNDAI", "FERRARI", "PORSHE", "VOLKSWAGEN", "CHEVROLET", "FORD"));
         categories.addAll(Arrays.asList('A', 'B', 'C', 'D', 'E', 'F', 'G'));

@@ -167,4 +167,8 @@ public class MyLinkedList<T> {
         return mas;
     }
 
+    public boolean clear(){
+        node = null;
+        return true;
+    }
 }

@@ -15,9 +15,11 @@ public class Main {
     static final Logger logger = LogManager.getLogger(Main.class);
     public static void main(String[] args) throws EBuildingNameIsNull {
         MyLinkedList<String> list = new MyLinkedList<>();
+        System.out.println(list.isEmpty());
         list.addElement("HELLO");
         list.addElement("HOW ARE YOU");
         list.addElement(null);
+        list.add("HI", "YO", null, "WHAT'S UP");
         System.out.println(list);
         System.out.println(list.size());
         System.out.println(list.get(2));
