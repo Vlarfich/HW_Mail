@@ -1,33 +1,34 @@
 package com.solvd.mail.main;
 
-import com.solvd.mail.buildings.CarDeliveryDepartment;
-import com.solvd.mail.buildings.PlaneDeliveryDepartment;
 import com.solvd.mail.buildings.PostOffice;
-import com.solvd.mail.exceptions.EBuildingNameIsNULL;
-import com.solvd.mail.parcel.Deliverable;
+import com.solvd.mail.exceptions.EBuildingNameIsNull;
+import com.solvd.mail.myLinkedList.MyLinkedList;
 import com.solvd.mail.parcel.Letter;
 import com.solvd.mail.parcel.Package;
-import com.solvd.mail.person.DeliveryMan;
-import com.solvd.mail.person.Driver;
-import com.solvd.mail.person.Pilot;
-import com.solvd.mail.person.PostOfficeWorker;
-import com.solvd.mail.vehichle.Bicycle;
-import com.solvd.mail.vehichle.Car;
-import com.solvd.mail.vehichle.Plane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.FileInputStream;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
     static final Logger logger = LogManager.getLogger(Main.class);
-    public static void main(String[] args) throws EBuildingNameIsNULL {
-        Menu();
+    public static void main(String[] args) throws EBuildingNameIsNull {
+        MyLinkedList<String> list = new MyLinkedList<>();
+        list.addElement("HELLO");
+        list.addElement("HOW ARE YOU");
+        list.addElement(null);
+        System.out.println(list);
+        System.out.println(list.size());
+        System.out.println(list.get(2));
+        Object[] mas = list.asArray();
+        System.out.println(list.remove(null));
+        System.out.println(list);
+        list.remove(0);
+        System.out.println(list);
+        list.remove(0);
+        System.out.println(list);
+        //Menu();
     }
 
     public static boolean printMenu() {
@@ -43,7 +44,7 @@ public class Main {
         return true;
     }
 
-    public static boolean Menu() throws EBuildingNameIsNULL {
+    public static boolean Menu() throws EBuildingNameIsNull {
         String plank = "\n-------------------------------------------------------------------------\t";
         Scanner sc = new Scanner(System.in);
         PostOffice postOffice = PostOfficeGenerator.getPostOffice();

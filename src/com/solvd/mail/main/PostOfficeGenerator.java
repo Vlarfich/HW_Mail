@@ -16,7 +16,6 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.logging.Level;
 
 
 public final class PostOfficeGenerator {
@@ -92,9 +91,9 @@ public final class PostOfficeGenerator {
         try {
             name = NAMES.get((int) (Math.random() * NAMES.size()));
             if (name == null) {
-                throw new EPostOWNameIsNULL("POW NAME IS NULL");
+                throw new EPostOWNameIsNull("POW NAME IS NULL");
             }
-        } catch (EPostOWNameIsNULL e) {
+        } catch (EPostOWNameIsNull e) {
             logger.info(e.getMessage());
             name = e.getMessage();
             //System.err.println(name);
@@ -122,9 +121,9 @@ public final class PostOfficeGenerator {
         try {
             name = NAMES.get((int) (Math.random() * NAMES.size()));
             if (name == null) {
-                throw new EPilotNameIsNULL("PILOT NAME IS NULL");
+                throw new EPilotNameIsNull("PILOT NAME IS NULL");
             }
-        } catch (EPilotNameIsNULL e) {
+        } catch (EPilotNameIsNull e) {
             logger.info(e.getMessage());
             name = e.getMessage();
             //System.err.println(name);
@@ -154,9 +153,9 @@ public final class PostOfficeGenerator {
         try {
             name = NAMES.get((int) (Math.random() * NAMES.size()));
             if (name == null) {
-                throw new ExcDriverNameIsNULL("DRIVER NAME IS NULL");
+                throw new ExcDriverNameIsNull("DRIVER NAME IS NULL");
             }
-        } catch (ExcDriverNameIsNULL e) {
+        } catch (ExcDriverNameIsNull e) {
             logger.info(e.getMessage());
             name = e.getMessage();
         }
@@ -189,9 +188,9 @@ public final class PostOfficeGenerator {
         try {
             name = NAMES.get((int) (Math.random() * NAMES.size()));
             if (name == null) {
-                throw new EDeliveryManNameIsNULL("DELIVERYMAN NAME IS NULL");
+                throw new EDeliveryManNameIsNull("DELIVERYMAN NAME IS NULL");
             }
-        } catch (EDeliveryManNameIsNULL e) {
+        } catch (EDeliveryManNameIsNull e) {
             logger.warn(e.getMessage());
             name = e.getMessage();
         }
@@ -225,7 +224,7 @@ public final class PostOfficeGenerator {
         return res;
     }
 
-    public static PostOffice getPostOffice() throws EBuildingNameIsNULL {
+    public static PostOffice getPostOffice() throws EBuildingNameIsNull {
         String name = OFFICE_NAMES.get((int) (Math.random() * OFFICE_NAMES.size()));
         int floor = (int) (Math.random() * 5) + 1;
         int sqft = (int) (Math.random() * 200) + 100;
@@ -248,7 +247,7 @@ public final class PostOfficeGenerator {
             }
             logMessage += "NAME IS NULL";
             logger.fatal(logMessage);
-            throw new EBuildingNameIsNULL(logMessage);
+            throw new EBuildingNameIsNull(logMessage);
         }
 
         int index = (int) (Math.random() * 20) + 2;

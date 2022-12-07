@@ -1,6 +1,6 @@
 package com.solvd.mail.exceptions;
-public class EBuildingNameIsNULL extends Exception{
-    public EBuildingNameIsNULL(String message) {
+public class EBuildingNameIsNull extends Exception{
+    public EBuildingNameIsNull(String message) {
         super(message);
     }
 
