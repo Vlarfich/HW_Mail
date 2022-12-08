@@ -8,6 +8,8 @@ import com.solvd.mail.person.Pilot;
 import com.solvd.mail.person.PostOfficeWorker;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PostOffice extends Building {
     private int openingTime;
@@ -20,6 +22,9 @@ public class PostOffice extends Building {
     private final ArrayList<Letter> carLetters = new ArrayList<>();
     private final ArrayList<Package> airPackages = new ArrayList<>();
     private final ArrayList<Package> carPackages = new ArrayList<>();
+
+    private final Map<Integer, Letter> ALL_LETTERS = new HashMap<>();
+    private final Map<Integer, Package> ALL_PACKAGES = new HashMap<>();
 
     enum EUROPEAN_CITIES {
         VITEBSK(55.187222, 30.205116),
@@ -170,99 +175,90 @@ public class PostOffice extends Building {
         if (letter.getDeparture().equals(letter.getDestination())) {
             addLetter(letter);
             cost = 5;
-            letter.setCost(cost);
-            return cost;
+        } else {
+            ArrayList<String> europe = EUROPEAN_CITIES.getCities();
+            ArrayList<String> northernAmerica = NORTH_AMERICA_CITIES.getCities();
+
+            String dep = letter.getDeparture();
+            String dest = letter.getDestination();
+
+            if ((europe.contains(letter.getDeparture()) && europe.contains(letter.getDestination()))) {
+                carLetters.add(letter);
+                cost = 10 *
+                        (int) Math.sqrt(Math.pow(EUROPEAN_CITIES.valueOf(dep).latitude - EUROPEAN_CITIES.valueOf(dest).latitude, 2) +
+                                Math.pow(EUROPEAN_CITIES.valueOf(dep).longitude - EUROPEAN_CITIES.valueOf(dest).longitude, 2));
+            } else if ((northernAmerica.contains(letter.getDeparture()) && northernAmerica.contains(letter.getDestination()))) {
+                carLetters.add(letter);
+                cost = 10 *
+                        (int) Math.sqrt(Math.pow(NORTH_AMERICA_CITIES.valueOf(dep).latitude - NORTH_AMERICA_CITIES.valueOf(dest).latitude, 2) +
+                                Math.pow(NORTH_AMERICA_CITIES.valueOf(dep).longitude - NORTH_AMERICA_CITIES.valueOf(dest).longitude, 2));
+            } else {
+                airLetters.add(letter);
+
+                int edep = europe.indexOf(letter.getDeparture());
+                int edes = europe.indexOf(letter.getDestination());
+                int adep = northernAmerica.indexOf(letter.getDeparture());
+                int ades = northernAmerica.indexOf(letter.getDestination());
+
+                int a = Math.max(edep, edes);
+                int b = Math.max(adep, ades);
+                EUROPEAN_CITIES e = EUROPEAN_CITIES.getIndex(a);
+                NORTH_AMERICA_CITIES n = NORTH_AMERICA_CITIES.getIndex(b);
+
+                cost = 10 *
+                        (int) Math.sqrt(Math.pow(e.latitude - n.latitude, 2) +
+                                Math.pow(e.longitude - n.longitude, 2));
+            }
         }
-        ArrayList<String> europe = EUROPEAN_CITIES.getCities();
-        ArrayList<String> northernAmerica = NORTH_AMERICA_CITIES.getCities();
-
-        String dep = letter.getDeparture();
-        String dest = letter.getDestination();
-
-        if ((europe.contains(letter.getDeparture()) && europe.contains(letter.getDestination()))) {
-
-            carLetters.add(letter);
-            cost = 10 *
-                    (int) Math.sqrt(Math.pow(EUROPEAN_CITIES.valueOf(dep).latitude - EUROPEAN_CITIES.valueOf(dest).latitude, 2) +
-                            Math.pow(EUROPEAN_CITIES.valueOf(dep).longitude - EUROPEAN_CITIES.valueOf(dest).longitude, 2));
-
-            letter.setCost(cost);
-            return cost;
-        }
-        if ((northernAmerica.contains(letter.getDeparture()) && northernAmerica.contains(letter.getDestination()))) {
-            carLetters.add(letter);
-            cost = 10 *
-                    (int) Math.sqrt(Math.pow(NORTH_AMERICA_CITIES.valueOf(dep).latitude - NORTH_AMERICA_CITIES.valueOf(dest).latitude, 2) +
-                            Math.pow(NORTH_AMERICA_CITIES.valueOf(dep).longitude - NORTH_AMERICA_CITIES.valueOf(dest).longitude, 2));
-            letter.setCost(cost);
-            return cost;
-        }
-        airLetters.add(letter);
-
-        int edep = europe.indexOf(letter.getDeparture());
-        int edes = europe.indexOf(letter.getDestination());
-        int adep = northernAmerica.indexOf(letter.getDeparture());
-        int ades = northernAmerica.indexOf(letter.getDestination());
-
-        int a = Math.max(edep, edes);
-        int b = Math.max(adep, ades);
-        EUROPEAN_CITIES e = EUROPEAN_CITIES.getIndex(a);
-        NORTH_AMERICA_CITIES n = NORTH_AMERICA_CITIES.getIndex(b);
-
-        cost = 10 *
-                (int) Math.sqrt(Math.pow(e.latitude - n.latitude, 2) +
-                        Math.pow(e.longitude - n.longitude, 2));
+        ALL_LETTERS.put(letter.getID(), letter);
         letter.setCost(cost);
         return cost;
     }
 
     public int send(Package pac) {
         int cost = 0;
-        if(pac.getType().equals("EXPRESS")){
+        if (pac.getType().equals("EXPRESS")) {
             cost += 200;
         }
         if (pac.getDeparture().equals(pac.getDestination())) {
             addPackage(pac);
             cost += (int) (0.5 * pac.getWeight());
-            pac.setCost(cost);
-            return cost;
+
+        } else {
+            ArrayList<String> europe = EUROPEAN_CITIES.getCities();
+            ArrayList<String> northernAmerica = NORTH_AMERICA_CITIES.getCities();
+            String dep = pac.getDeparture();
+            String dest = pac.getDestination();
+            if ((europe.contains(pac.getDeparture()) && europe.contains(pac.getDestination()))) {
+                carPackages.add(pac);
+                cost += (int) (pac.getWeight() * 0.25 *
+                        (int) Math.sqrt(Math.pow(EUROPEAN_CITIES.valueOf(dep).latitude - EUROPEAN_CITIES.valueOf(dest).latitude, 2) +
+                                Math.pow(EUROPEAN_CITIES.valueOf(dep).longitude - EUROPEAN_CITIES.valueOf(dest).longitude, 2)));
+            } else if ((northernAmerica.contains(pac.getDeparture()) && northernAmerica.contains(pac.getDestination()))) {
+                carPackages.add(pac);
+                cost += (int) (pac.getWeight() * 0.25 *
+                        (int) Math.sqrt(Math.pow(NORTH_AMERICA_CITIES.valueOf(dep).latitude - NORTH_AMERICA_CITIES.valueOf(dest).latitude, 2) +
+                                Math.pow(NORTH_AMERICA_CITIES.valueOf(dep).longitude - NORTH_AMERICA_CITIES.valueOf(dest).longitude, 2)));
+            } else {
+                airPackages.add(pac);
+
+                int edep = europe.indexOf(pac.getDeparture());
+                int edes = europe.indexOf(pac.getDestination());
+                int adep = northernAmerica.indexOf(pac.getDeparture());
+                int ades = northernAmerica.indexOf(pac.getDestination());
+
+                int a = Math.max(edep, edes);
+                int b = Math.max(adep, ades);
+
+                EUROPEAN_CITIES e = EUROPEAN_CITIES.getIndex(a);
+                NORTH_AMERICA_CITIES n = NORTH_AMERICA_CITIES.getIndex(b);
+
+                cost += (int) (0.2 * pac.getWeight() *
+                        (int) Math.pow(Math.pow(e.latitude - n.latitude, 2) +
+                                Math.pow(e.longitude - n.longitude, 2), 0.5));
+            }
         }
-        ArrayList<String> europe = EUROPEAN_CITIES.getCities();
-        ArrayList<String> northernAmerica = NORTH_AMERICA_CITIES.getCities();
-        String dep = pac.getDeparture();
-        String dest = pac.getDestination();
-        if ((europe.contains(pac.getDeparture()) && europe.contains(pac.getDestination()))) {
-            carPackages.add(pac);
-            cost += (int) (pac.getWeight() * 0.25 *
-                    (int) Math.sqrt(Math.pow(EUROPEAN_CITIES.valueOf(dep).latitude - EUROPEAN_CITIES.valueOf(dest).latitude, 2) +
-                            Math.pow(EUROPEAN_CITIES.valueOf(dep).longitude - EUROPEAN_CITIES.valueOf(dest).longitude, 2)));
-            pac.setCost(cost);
-            return cost;
-        }
-        if ((northernAmerica.contains(pac.getDeparture()) && northernAmerica.contains(pac.getDestination()))) {
-            carPackages.add(pac);
-            cost += (int) (pac.getWeight() * 0.25 *
-                    (int) Math.sqrt(Math.pow(NORTH_AMERICA_CITIES.valueOf(dep).latitude - NORTH_AMERICA_CITIES.valueOf(dest).latitude, 2) +
-                            Math.pow(NORTH_AMERICA_CITIES.valueOf(dep).longitude - NORTH_AMERICA_CITIES.valueOf(dest).longitude, 2)));
-            pac.setCost(cost);
-            return cost;
-        }
-        airPackages.add(pac);
-
-        int edep = europe.indexOf(pac.getDeparture());
-        int edes = europe.indexOf(pac.getDestination());
-        int adep = northernAmerica.indexOf(pac.getDeparture());
-        int ades = northernAmerica.indexOf(pac.getDestination());
-
-        int a = Math.max(edep, edes);
-        int b = Math.max(adep, ades);
-
-        EUROPEAN_CITIES e = EUROPEAN_CITIES.getIndex(a);
-        NORTH_AMERICA_CITIES n = NORTH_AMERICA_CITIES.getIndex(b);
-
-        cost += (int) (0.2 * pac.getWeight() *
-                (int) Math.pow(Math.pow(e.latitude - n.latitude, 2) +
-                        Math.pow(e.longitude - n.longitude, 2), 0.5));
+        ALL_PACKAGES.put(pac.getID(), pac);
         pac.setCost(cost);
         return cost;
     }
@@ -331,54 +327,41 @@ public class PostOffice extends Building {
 
     @Override
     public String toString() {
-//        String delivers = "";
-//        for (int i = 0; i < deliveryMEN.size(); i++) {
-//            delivers += deliveryMEN.get(i) + "\n";
-//        }
-//        return "PostOffice{" +super.getName() +
-//                ", \nairLetters=\n" + airLetters +
-//                ", \nairPackages=\n" + airPackages +
-//                ", \ncarLetters=\n" + carLetters +
-//                ", \ncarPackages=\n" + carPackages +
-//                ", \nlocalLetters=\n" + getLetters() +
-//                ", \nlocalPackages=\n" + getPackages() +
-//                //"\n*------------*\n" + delivers +
-//                '}';
         StringBuilder res = new StringBuilder("PostOffice " + super.getName());
         res.append("\nairLetters:\n");
-        if(airLetters.isEmpty())
+        if (airLetters.isEmpty())
             res.append("     ...");
-        for(Letter l : airLetters){
+        for (Letter l : airLetters) {
             res.append(l);
         }
         res.append("\nairPackages:\n");
-        if(airPackages.isEmpty())
+        if (airPackages.isEmpty())
             res.append("     ...");
-        for(Package l : airPackages){
+        for (Package l : airPackages) {
             res.append(l);
         }
         res.append("\ncarLetters:\n");
-        if(carLetters.isEmpty())
+        if (carLetters.isEmpty())
             res.append("     ...");
-        for(Letter l : carLetters){
+        for (Letter l : carLetters) {
             res.append(l);
         }
         res.append("\ncarPackages:\n");
-        if(carPackages.isEmpty())
+        if (carPackages.isEmpty())
             res.append("     ...");
-        for(Package l : carPackages){
+        for (Package l : carPackages) {
             res.append(l);
         }
         res.append("\nlocalLetters:\n");
-        if(getLetters().isEmpty())
+        if (getLetters().isEmpty())
             res.append("     ...");
-        for(Letter l : getLetters()){
+        for (Letter l : getLetters()) {
             res.append(l);
         }
         res.append("\nlocalPackages:\n");
-        if(getPackages().isEmpty())
+        if (getPackages().isEmpty())
             res.append("     ...");
-        for(Package l : getPackages()){
+        for (Package l : getPackages()) {
             res.append(l);
         }
 
@@ -428,12 +411,12 @@ public class PostOffice extends Building {
         return sendingDay();
     }
 
-    public String getWorkers(){
+    public String getWorkers() {
         String res = "";
-        for(PostOfficeWorker s : postOfficeWorkers){
+        for (PostOfficeWorker s : postOfficeWorkers) {
             res += s.toString() + "\n";
         }
-        for(DeliveryMan s : deliveryMEN){
+        for (DeliveryMan s : deliveryMEN) {
             res += s.toString() + "\n";
         }
         res += carDeliveryDepartment.getDrivers();
@@ -441,4 +424,11 @@ public class PostOffice extends Building {
         return res;
     }
 
+    public Map<Integer, Letter> getALL_LETTERS() {
+        return ALL_LETTERS;
+    }
+
+    public Map<Integer, Package> getALL_PACKAGES() {
+        return ALL_PACKAGES;
+    }
 }

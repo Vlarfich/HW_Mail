@@ -2,7 +2,9 @@ package com.solvd.mail.myLinkedList;
 
 import org.jetbrains.annotations.NotNull;
 
-public class MyLinkedList<T> {
+import java.util.*;
+
+public class MyLinkedList<T> /*extends AbstractList*/ {
     private ListElement<T> node = null;
 
     public MyLinkedList() {
@@ -33,6 +35,7 @@ public class MyLinkedList<T> {
         return true;
     }
 
+
     public int size() {
         if (node == null)
             return 0;
@@ -46,7 +49,7 @@ public class MyLinkedList<T> {
 
     }
 
-    public boolean remove(T value) {
+    public boolean remove(Object value) {
         if (node != null) {
             ListElement l = node;
             if ((value == null && l.getValue() == null) || l.getValue().equals(value)) {
@@ -67,29 +70,31 @@ public class MyLinkedList<T> {
         return false;
     }
 
-    public boolean remove(int index) {
+    public T remove(int index) {
         int size = size();
         if (index < 0 || index >= size)
             throw new IndexOutOfBoundsException("index " + index + " out of range " + (size - 1));
 
-        if(index == 0){
+        if (index == 0) {
+            T res = node.getValue();
             node = node.getNext();
-            return true;
+            return res;
         }
 
-        ListElement l = node;
+        ListElement<T> l = node;
         for (int i = 0; i < index; i++) {
             if (l.getNext() != null) {
                 l = l.getNext();
             } else {
-                return false;
+                return null;
             }
         }
+        T res = l.getValue();
         if (l.getPrevious() != null)
             l.getPrevious().setNext(l.getNext());
         if (l.getNext() != null)
             l.getNext().setPrevious(l.getPrevious());
-        return true;
+        return res;
     }
 
     public ListElement get(int index) {
@@ -130,6 +135,8 @@ public class MyLinkedList<T> {
         return false;
     }
 
+    HashMap<Integer, String> k;
+
     public boolean isEmpty() {
         return node == null;
     }
@@ -167,8 +174,21 @@ public class MyLinkedList<T> {
         return mas;
     }
 
-    public boolean clear(){
+    public void clear() {
         node = null;
-        return true;
+    }
+
+    public Queue<T> asQueue() {
+        Queue<T> res = new PriorityQueue<>();
+        ListElement<T> l = node;
+        if (l != null) {
+            res.add(l.getValue());
+            while (l.getNext() != null) {
+                l = l.getNext();
+                if (l.getValue() != null)
+                    res.add(l.getValue());
+            }
+        }
+        return res;
     }
 }

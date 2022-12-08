@@ -8,4 +8,6 @@ public interface Deliverable {
     public String getDeparture();
 
     public String getDestination();
+
+    public int getID();
 }

@@ -10,9 +10,22 @@ import org.apache.logging.log4j.Logger;
 
 import java.util.*;
 
-public class Main {
+//
+//                                                Iterable                                              Map
+//                                                   |                                                   |
+//                                                   ⌄                                               SortedMap
+//                                               Collection
+//                                                   |
+//                          List                   Queue                   Set
+//
 
+
+
+
+
+public class Main {
     static final Logger logger = LogManager.getLogger(Main.class);
+
     public static void main(String[] args) throws EBuildingNameIsNull {
         MyLinkedList<String> list = new MyLinkedList<>();
         System.out.println(list.isEmpty());
@@ -20,29 +33,31 @@ public class Main {
         list.addElement("HOW ARE YOU");
         list.addElement(null);
         list.add("HI", "YO", null, "WHAT'S UP");
-        System.out.println(list);
-        System.out.println(list.size());
-        System.out.println(list.get(2));
+        list.add("HEHEHEHE");
+        logger.info(list);
+        logger.info(list.size());
+        logger.info(list.get(2));
         Object[] mas = list.asArray();
-        System.out.println(list.remove(null));
-        System.out.println(list);
+        logger.info(list.remove(null));
+        logger.info(list);
         list.remove(0);
-        System.out.println(list);
         list.remove(0);
-        System.out.println(list);
+        logger.info(list);
+        System.out.println(list.asQueue());
         //Menu();
     }
 
     public static boolean printMenu() {
         logger.info("""
-                
+                                
                 * (1) : PRINT INFORMATION
                 * (2) : GENERATE AND ADD LETTER
                 * (3) : GENERATE AND ADD PACKAGE
                 * (4) : SENDING DAY
                 * (5) : ADD WORKERS TO OFFICE
                 * (6) : PRINT WORKERS
-                * (7) : EXIT""");
+                * (7) : ADD 20 LETTERS & PACKAGES
+                * (8) : EXIT""");
         return true;
     }
 
@@ -64,19 +79,19 @@ public class Main {
                 case 2 -> {
                     Letter l = DeliverableGenerator.getLetter();
                     totalCost += postOffice.send(l);
-                    logger.info("\nGenerated Letter: " + l);
+                    logger.info("Generated Letter: " + l);
                 }
                 case 3 -> {
                     Package p = DeliverableGenerator.getPackage();
                     totalCost += postOffice.send(p);
-                    logger.info("\nGenerated Package: " + p);
+                    logger.info("Generated Package: " + p);
                 }
                 case 4 -> {
                     boolean success = postOffice.sendingDay();
                     if (success) {
-                        logger.info("\n   *** Sending day went successfully ***");
+                        logger.info("   *** Sending day went successfully ***");
                     } else {
-                        logger.info("\n  *** Nothing was sent today ***");
+                        logger.info("  *** Nothing was sent today ***");
                     }
                 }
                 case 5 -> {
@@ -88,11 +103,23 @@ public class Main {
                 case 6 -> {
                     logger.info("\n" + postOffice.getWorkers());
                 }
-                default -> choice = 7;
+                case 7 -> {
+                    for (int i = 0; i < 20; i++) {
+                        totalCost += postOffice.send(DeliverableGenerator.getLetter());
+                        totalCost += postOffice.send(DeliverableGenerator.getPackage());
+                    }
+                    logger.info("Sent 20 Letters/Packages");
+                }
+                default -> choice = 8;
             }
-        } while (choice != 7);
+        } while (choice != 8);
         logger.info(plank + "\n                                              * YOUR TOTAL BILL :  " +
                 totalCost + "$\t");
+
+        /*postOffice.getALL_LETTERS().forEach((k, v) -> {
+            System.out.println(k + " Letter, " + v.isDelivered());
+        });*/
+
         return totalCost != 0;
     }
 

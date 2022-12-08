@@ -1,7 +1,6 @@
 package com.solvd.mail.parcel;
 
-import java.util.Date;
-import java.util.Objects;
+import java.util.*;
 
 public class Letter implements Deliverable {
     private String departure;
@@ -88,5 +87,10 @@ public class Letter implements Deliverable {
     @Override
     public int hashCode() {
         return Objects.hash(departure, destination, dateOfDispatch, id);
+    }
+
+    @Override
+    public int getID() {
+        return id;
     }
 }

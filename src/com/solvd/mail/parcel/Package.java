@@ -110,4 +110,9 @@ public class Package implements Deliverable {
     public int hashCode() {
         return Objects.hash(departure, destination, dateOfDispatch, weight, type, id);
     }
+
+    @Override
+    public int getID() {
+        return id;
+    }
 }

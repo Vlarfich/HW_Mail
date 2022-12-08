@@ -56,7 +56,7 @@ public class PlaneDeliveryDepartment extends Building {
         probability *= 100;
         probability /= pilots1.size();
 
-        LogManager.getLogger(CarDeliveryDepartment.class).info("Plane delivery probability = " + probability);
+        LogManager.getLogger(PlaneDeliveryDepartment.class).info("Plane delivery probability = " + probability);
 
         boolean sentSMTHG = false;
 
