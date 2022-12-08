@@ -13,8 +13,10 @@ import com.solvd.mail.vehichle.Car;
 import com.solvd.mail.vehichle.Plane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.apache.logging.log4j.util.PropertySource;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 
 public final class PostOfficeGenerator {
@@ -42,7 +44,6 @@ public final class PostOfficeGenerator {
             return getNames().size();
         }
     }*/
-
     private static final Set<String> NAMES = new HashSet<>(Arrays.asList("GEORGE", "MICHAEL", "STEPHEN", "KEVIN", "CHRIS",
             "DRAYMOND", "NICOLA", "DAVIS", "MARGARET", "LUCY",
             "PAUL", "GRETTA", "LENA", "DAISY"));
@@ -81,7 +82,6 @@ public final class PostOfficeGenerator {
 
     static final Logger logger = LogManager.getLogger(PostOfficeGenerator.class);
 
-    //static final Logger logger = Logger.getLogger(PostOfficeGenerator.class.getName());
     static {
         POSITIONS.addAll(Arrays.asList("Manager", "Consultant", "Security", "Cleaner", "Accountant", "Cashier"));
         POSITIONS.sort(Comparator.naturalOrder());
@@ -107,7 +107,6 @@ public final class PostOfficeGenerator {
         } catch (EPostOWNameIsNull e) {
             logger.info(e.getMessage());
             name = e.getMessage();
-            //System.err.println(name);
         }
         int age = (int) (Math.random() * 40) + 20;
         int experience = age - 20 - (int) (Math.random() * (age - 20));
