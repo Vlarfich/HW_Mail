@@ -135,7 +135,6 @@ public class MyLinkedList<T> /*extends AbstractList*/ {
         return false;
     }
 
-    HashMap<Integer, String> k;
 
     public boolean isEmpty() {
         return node == null;
