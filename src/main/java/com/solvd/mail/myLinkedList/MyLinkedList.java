@@ -1,6 +1,5 @@
 package com.solvd.mail.myLinkedList;
 
-import org.jetbrains.annotations.NotNull;
 
 import java.util.*;
 
@@ -29,7 +28,7 @@ public class MyLinkedList<T> /*extends AbstractList*/ {
         return true;
     }
 
-    public boolean add(@NotNull T... value) {
+    public boolean add( T... value) {
         for (T v : value)
             addElement(v);
         return true;

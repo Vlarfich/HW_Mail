@@ -27,8 +27,6 @@ public class Main {
     static final Logger logger = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) throws EBuildingNameIsNull {
-        System.out.println("HOW ARE YA");
-        System.out.println(2+2);
         MyLinkedList<String> list = new MyLinkedList<>();
         list.addElement("HELLO");
         list.addElement("HOW ARE YOU");
@@ -44,7 +42,7 @@ public class Main {
         list.remove(0);
         list.remove(0);
         logger.info(list);
-        //Menu();
+        Menu();
     }
 
     public static boolean printMenu() {
@@ -66,16 +64,14 @@ public class Main {
         Scanner sc = new Scanner(System.in);
         PostOffice postOffice = PostOfficeGenerator.getPostOffice();
         int totalCost = 0;
-        int choice = 0;
+        int choice;
         do {
             printMenu();
             choice = sc.nextInt();
             switch (choice) {
-                case 1 -> {
-                    logger.info(plank + "\n" +
-                            postOffice + plank + "\n                                              * YOUR TOTAL BILL :  " +
-                            totalCost + "$\t");
-                }
+                case 1 -> logger.info(plank + "\n" +
+                        postOffice + plank + "\n                                              * YOUR TOTAL BILL :  " +
+                        totalCost + "$\t");
                 case 2 -> {
                     Letter l = DeliverableGenerator.getLetter();
                     totalCost += postOffice.send(l);
@@ -100,9 +96,7 @@ public class Main {
                     postOffice.addWorker(PostOfficeGenerator.getDriver());
                     postOffice.addWorker(PostOfficeGenerator.getPilot());
                 }
-                case 6 -> {
-                    logger.info("\n" + postOffice.getWorkers());
-                }
+                case 6 -> logger.info("\n" + postOffice.getWorkers());
                 case 7 -> {
                     for (int i = 0; i < 20; i++) {
                         totalCost += postOffice.send(DeliverableGenerator.getLetter());
@@ -115,10 +109,6 @@ public class Main {
         } while (choice != 8);
         logger.info(plank + "\n                                              * YOUR TOTAL BILL :  " +
                 totalCost + "$\t");
-
-        /*postOffice.getALL_LETTERS().forEach((k, v) -> {
-            System.out.println(k + " Letter, " + v.isDelivered());
-        });*/
 
         return totalCost != 0;
     }
