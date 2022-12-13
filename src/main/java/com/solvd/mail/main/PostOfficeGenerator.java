@@ -13,7 +13,6 @@ import com.solvd.mail.vehichle.Car;
 import com.solvd.mail.vehichle.Plane;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.apache.logging.log4j.util.PropertySource;
 
 import java.util.*;
 import java.util.stream.Stream;

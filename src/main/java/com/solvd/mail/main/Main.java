@@ -27,8 +27,9 @@ public class Main {
     static final Logger logger = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) throws EBuildingNameIsNull {
+        System.out.println("HOW ARE YA");
+        System.out.println(2+2);
         MyLinkedList<String> list = new MyLinkedList<>();
-        System.out.println(list.isEmpty());
         list.addElement("HELLO");
         list.addElement("HOW ARE YOU");
         list.addElement(null);
@@ -43,7 +44,6 @@ public class Main {
         list.remove(0);
         list.remove(0);
         logger.info(list);
-        System.out.println(list.asQueue());
         //Menu();
     }
 

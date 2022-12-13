@@ -5,7 +5,9 @@ import com.solvd.mail.parcel.Package;
 import com.solvd.mail.person.Driver;
 
 import java.util.ArrayList;
+
 import org.apache.logging.log4j.LogManager;
+
 public class CarDeliveryDepartment extends Building {
     private int amountOfCars;
     private int amountOfDrivers;
