@@ -14,6 +14,10 @@ public class MyLinkedList<T> /*extends AbstractList*/ {
         node = new ListElement<>(value);
     }
 
+    public MyLinkedList(T... values) {
+        add(values);
+    }
+
     public boolean addElement(T value) {
         if (node == null) {
             node = new ListElement<>(value);
@@ -28,7 +32,10 @@ public class MyLinkedList<T> /*extends AbstractList*/ {
         return true;
     }
 
-    public boolean add( T... value) {
+    public boolean add(T... value) {
+        if(value == null){
+            return addElement(null);
+        }
         for (T v : value)
             addElement(v);
         return true;
@@ -189,4 +196,5 @@ public class MyLinkedList<T> /*extends AbstractList*/ {
         }
         return res;
     }
+
 }
