@@ -1,9 +1,9 @@
 package com.solvd.mail.exceptions;
 //                                          Throwable
 //                                              |
-//                               Error                   Exception
+//                               Error                   ##Exception##
 //                                 |                         |
-//                ThreadDead, VM, IO              Runtime         #IO, SQL, BrokenBarrier#
+//                ThreadDead, VM, IO              Runtime         ##IO, SQL, BrokenBarrier##
 //                            |                      |
 //          OutOfMemory, StackOverflow        NullPointer, Arithmetic
 
