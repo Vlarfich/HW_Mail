@@ -36,7 +36,6 @@ import java.util.*;
 //
 
 
-
 public class Main {
     static final Logger logger = LogManager.getLogger(Main.class);
 
@@ -58,7 +57,7 @@ public class Main {
         logger.info(list);
         Menu();
     }
-
+//
     public static boolean printMenu() {
         logger.info("""
                                 
