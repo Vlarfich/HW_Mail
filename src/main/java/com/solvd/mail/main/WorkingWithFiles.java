@@ -11,13 +11,11 @@ import java.util.*;
 public class WorkingWithFiles {
 
     public static void main(String[] args) throws IOException {
-        String s = StringUtils.replaceChars(FileUtils.readFileToString(new File("text.txt"),
-                        StandardCharsets.UTF_8), "\n.,;:?!\t", "  ");
+        String s = StringUtils.replaceChars(FileUtils.readFileToString(new File("text.txt"), StandardCharsets.UTF_8), "\n.,;:?!\t", " ");
         List<String> res = new ArrayList<>();
         String[] mas = StringUtils.split(StringUtils.lowerCase(s));
         Set<String> set = new LinkedHashSet<>(List.of(mas));
-        for(String i: set)
-            res.add(i + "  " + StringUtils.countMatches(" " + StringUtils.lowerCase(s) + " ", " " + StringUtils.lowerCase(i) + " "));
+        set.forEach((i) -> res.add(i + "  " + StringUtils.countMatches(" " + StringUtils.lowerCase(s) + " ", " " + StringUtils.lowerCase(i) + " ")));
         FileUtils.writeLines(new File("out.txt"), res);
     }
 }
