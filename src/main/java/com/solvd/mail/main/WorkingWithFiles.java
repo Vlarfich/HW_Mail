@@ -23,7 +23,7 @@ public class WorkingWithFiles {
 
     public static void subjectHeading(String delimiters, String inputPath, String outputPath) throws IOException {
         String s = StringUtils.lowerCase(StringUtils.join(StringUtils.split((FileUtils.readFileToString(new File(inputPath), StandardCharsets.UTF_8)), delimiters), "  "));
-        for (String i : new LinkedHashSet<>(List.of(StringUtils.split(StringUtils.lowerCase(s))))) {
+        for (String i : new LinkedHashSet<>(List.of(StringUtils.split(s)))) {
             FileUtils.write(new File(outputPath), i + "  " + StringUtils.countMatches(" " + s + " ", " " + i + " ") + "\n", StandardCharsets.UTF_8, true);
         }
     }
