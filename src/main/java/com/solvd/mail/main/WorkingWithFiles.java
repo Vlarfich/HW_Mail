@@ -3,7 +3,6 @@ package com.solvd.mail.main;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,11 +10,11 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class WorkingWithFiles {
-    private static final String DELIMS = " \n\t\r.,;:!?@{}[]()*&^%$#|/.";
+    private static final String DELIMITERS = " \n\t\r.,;:!?@{}[]()*&^%$#|/.";
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) {
         try {
-            subjectHeading(DELIMS, "text.txt", "out.txt");
+            subjectHeading(DELIMITERS, "text.txt", "out.txt");
         } catch (IOException e) {
             LogManager.getLogger(WorkingWithFiles.class).info(e.getMessage());
         }
