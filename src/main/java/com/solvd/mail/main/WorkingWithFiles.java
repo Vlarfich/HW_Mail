@@ -11,14 +11,20 @@ import java.nio.charset.StandardCharsets;
 import java.util.*;
 
 public class WorkingWithFiles {
-    private static final String DELIMS = "\n\t\r.,;:!?@{}[]()*&^%$#|/.";
-    private static final File out = new File("out.txt");
+    private static final String DELIMS = " \n\t\r.,;:!?@{}[]()*&^%$#|/.";
 
     public static void main(String[] args) throws IOException {
-        String s = StringUtils.lowerCase(StringUtils.joinWith("  ", (Object[]) StringUtils.split(StringUtils.replaceChars(FileUtils.readFileToString(new File("text.txt"), StandardCharsets.UTF_8), DELIMS, " "))));
-        Set<String> set = new LinkedHashSet<>(List.of(StringUtils.split(s)));
-        for (String i : set) {
-            FileUtils.write(out, (i + "  " + StringUtils.countMatches(" " + StringUtils.lowerCase(s) + " ", " " + StringUtils.lowerCase(i) + " ") + "\n"), StandardCharsets.UTF_8, true);
+        try {
+            subjectHeading(DELIMS, "text.txt", "out.txt");
+        } catch (IOException e) {
+            LogManager.getLogger(WorkingWithFiles.class).info(e.getMessage());
+        }
+    }
+
+    public static void subjectHeading(String delimeters, String inputPath, String outputPath) throws IOException {
+        String s = StringUtils.join(StringUtils.split((FileUtils.readFileToString(new File(inputPath), StandardCharsets.UTF_8)), delimeters), "  ");
+        for (String i : new LinkedHashSet<>(List.of(StringUtils.split(StringUtils.lowerCase(s))))) {
+            FileUtils.write(new File(outputPath), i + "  " + StringUtils.countMatches(" " + StringUtils.lowerCase(s) + " ", " " + StringUtils.lowerCase(i) + " ") + "\n", StandardCharsets.UTF_8, true);
         }
     }
 }
