@@ -28,7 +28,7 @@ public class WorkingWithLambdas {
 
         List<Integer> numbers = new ArrayList<>();
         for (int i = 0; i < 20; i++) {
-            numbers.add(RandomGenerator.getDefault().nextInt(20000));
+            numbers.add(RandomGenerator.getDefault().nextInt());
         }
         numbers.forEach(print);
         logger.info("\n");

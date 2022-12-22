@@ -2,7 +2,6 @@ package com.solvd.mail.main;
 
 import com.solvd.mail.buildings.PostOffice;
 import com.solvd.mail.exceptions.EBuildingNameIsNull;
-import com.solvd.mail.myLinkedList.MyLinkedList;
 import com.solvd.mail.parcel.Letter;
 import com.solvd.mail.parcel.Package;
 import org.apache.logging.log4j.LogManager;
@@ -37,29 +36,29 @@ import java.util.*;
 
 
 public class Main {
-    static final Logger logger = LogManager.getLogger(Main.class);
+    static final Logger LOGGER = LogManager.getLogger(Main.class);
 
     public static void main(String[] args) throws EBuildingNameIsNull {
-        MyLinkedList<String> list = new MyLinkedList<>();
-        list.addElement("HELLO");
-        list.addElement("HOW ARE YOU");
-        list.addElement(null);
-        list.add("HI", "YO", null, "WHAT'S UP");
-        list.add("HEHEHEHE");
-        logger.info(list);
-        logger.info(list.size());
-        logger.info(list.get(2));
-        Object[] mas = list.asArray();
-        logger.info(list.remove(null));
-        logger.info(list);
-        list.remove(0);
-        list.remove(0);
-        logger.info(list);
+//        MyLinkedList<String> list = new MyLinkedList<>();
+//        list.addElement("HELLO");
+//        list.addElement("HOW ARE YOU");
+//        list.addElement(null);
+//        list.add("HI", "YO", null, "WHAT'S UP");
+//        list.add("HE HE HE HE");
+//        logger.info(list);
+//        logger.info(list.size());
+//        logger.info(list.get(2));
+//        Object[] mas = list.asArray();
+//        logger.info(list.remove(null));
+//        logger.info(list);
+//        list.remove(0);
+//        list.remove(0);
+//        logger.info(list);
         Menu();
     }
 //
     public static boolean printMenu() {
-        logger.info("""
+        LOGGER.info("""
                                 
                 * (1) : PRINT INFORMATION
                 * (2) : GENERATE AND ADD LETTER
@@ -82,25 +81,25 @@ public class Main {
             printMenu();
             choice = sc.nextInt();
             switch (choice) {
-                case 1 -> logger.info(plank + "\n" +
+                case 1 -> LOGGER.info(plank + "\n" +
                         postOffice + plank + "\n                                              * YOUR TOTAL BILL :  " +
                         totalCost + "$\t");
                 case 2 -> {
                     Letter l = DeliverableGenerator.getLetter();
                     totalCost += postOffice.send(l);
-                    logger.info("Generated Letter: " + l);
+                    LOGGER.info("Generated Letter: " + l);
                 }
                 case 3 -> {
                     Package p = DeliverableGenerator.getPackage();
                     totalCost += postOffice.send(p);
-                    logger.info("Generated Package: " + p);
+                    LOGGER.info("Generated Package: " + p);
                 }
                 case 4 -> {
                     boolean success = postOffice.sendingDay();
                     if (success) {
-                        logger.info("   *** Sending day went successfully ***");
+                        LOGGER.info("   *** Sending day went successfully ***");
                     } else {
-                        logger.info("  *** Nothing was sent today ***");
+                        LOGGER.info("  *** Nothing was sent today ***");
                     }
                 }
                 case 5 -> {
@@ -109,18 +108,18 @@ public class Main {
                     postOffice.addWorker(PostOfficeGenerator.getDriver());
                     postOffice.addWorker(PostOfficeGenerator.getPilot());
                 }
-                case 6 -> logger.info("\n" + postOffice.getWorkers());
+                case 6 -> LOGGER.info("\n" + postOffice.getWorkers());
                 case 7 -> {
                     for (int i = 0; i < 20; i++) {
                         totalCost += postOffice.send(DeliverableGenerator.getLetter());
                         totalCost += postOffice.send(DeliverableGenerator.getPackage());
                     }
-                    logger.info("Sent 20 Letters/Packages");
+                    LOGGER.info("Sent 20 Letters/Packages");
                 }
                 default -> choice = 8;
             }
         } while (choice != 8);
-        logger.info(plank + "\n                                              * YOUR TOTAL BILL :  " +
+        LOGGER.info(plank + "\n                                              * YOUR TOTAL BILL :  " +
                 totalCost + "$\t");
 
         return totalCost != 0;

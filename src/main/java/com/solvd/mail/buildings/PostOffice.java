@@ -8,8 +8,10 @@ import com.solvd.mail.person.Pilot;
 import com.solvd.mail.person.PostOfficeWorker;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 public class PostOffice extends Building {
     private int openingTime;
@@ -48,20 +50,13 @@ public class PostOffice extends Building {
         }
 
         public boolean checkString(String str) {
-            for (EUROPEAN_CITIES i : values()) {
-                if (str.equals(i.name())) {
-                    return true;
-                }
-            }
-            return false;
+
+            return EUROPEAN_CITIES.getCities().stream().anyMatch((x) -> x.equals(str));
         }
 
         public static ArrayList<String> getCities() {
-            ArrayList<String> cities = new ArrayList<>();
-            for (EUROPEAN_CITIES i : EUROPEAN_CITIES.values()) {
-                cities.add(i.name());
-            }
-            return cities;
+            return new ArrayList<>(Arrays.stream(EUROPEAN_CITIES.values()).map((x) -> x.name()).sorted().toList());
+
         }
 
         public static EUROPEAN_CITIES getIndex(int a) {
@@ -96,20 +91,13 @@ public class PostOffice extends Building {
         }
 
         public boolean checkString(String str) {
-            for (NORTH_AMERICA_CITIES i : values()) {
-                if (str.equals(i.name())) {
-                    return true;
-                }
-            }
-            return false;
+
+            return NORTH_AMERICA_CITIES.getCities().stream().anyMatch((x) -> x.equals(str));
+
         }
 
         public static ArrayList<String> getCities() {
-            ArrayList<String> cities = new ArrayList<>();
-            for (NORTH_AMERICA_CITIES i : NORTH_AMERICA_CITIES.values()) {
-                cities.add(i.name());
-            }
-            return cities;
+            return new ArrayList<>(Arrays.stream(NORTH_AMERICA_CITIES.values()).map((x) -> x.name()).sorted().toList());
         }
 
         public static NORTH_AMERICA_CITIES getIndex(int a) {
@@ -130,8 +118,7 @@ public class PostOffice extends Building {
     }
 
     public static ArrayList<String> getCities() {
-        ArrayList<String> cities = new ArrayList<>();
-        cities.addAll(EUROPEAN_CITIES.getCities());
+        ArrayList<String> cities = EUROPEAN_CITIES.getCities();
         cities.addAll(NORTH_AMERICA_CITIES.getCities());
         return cities;
     }
@@ -327,43 +314,42 @@ public class PostOffice extends Building {
 
     @Override
     public String toString() {
-        StringBuilder res = new StringBuilder("PostOffice " + super.getName());
+        StringBuilder res = new StringBuilder("PostOffice  - " + super.getName());
+
         res.append("\nairLetters:\n");
         if (airLetters.isEmpty())
             res.append("     ...");
-        for (Letter l : airLetters) {
-            res.append(l);
-        }
+        res.append(airLetters.stream().map(x -> x.toString()).collect(Collectors.joining()));
+
+
         res.append("\nairPackages:\n");
         if (airPackages.isEmpty())
             res.append("     ...");
-        for (Package l : airPackages) {
-            res.append(l);
-        }
+        res.append(airPackages.stream().map(x -> x.toString()).collect(Collectors.joining()));
+
+
         res.append("\ncarLetters:\n");
         if (carLetters.isEmpty())
             res.append("     ...");
-        for (Letter l : carLetters) {
-            res.append(l);
-        }
+        res.append(carLetters.stream().map(x -> x.toString()).collect(Collectors.joining()));
+
+
         res.append("\ncarPackages:\n");
         if (carPackages.isEmpty())
             res.append("     ...");
-        for (Package l : carPackages) {
-            res.append(l);
-        }
+        res.append(carPackages.stream().map(x -> x.toString()).collect(Collectors.joining()));
+
+
         res.append("\nlocalLetters:\n");
         if (getLetters().isEmpty())
             res.append("     ...");
-        for (Letter l : getLetters()) {
-            res.append(l);
-        }
+        res.append(getLetters().stream().map(x -> x.toString()).collect(Collectors.joining()));
+
+
         res.append("\nlocalPackages:\n");
         if (getPackages().isEmpty())
             res.append("     ...");
-        for (Package l : getPackages()) {
-            res.append(l);
-        }
+        res.append(getPackages().stream().map(x -> x.toString()).collect(Collectors.joining()));
 
         return res.toString();
     }
@@ -413,12 +399,9 @@ public class PostOffice extends Building {
 
     public String getWorkers() {
         String res = "";
-        for (PostOfficeWorker s : postOfficeWorkers) {
-            res += s.toString() + "\n";
-        }
-        for (DeliveryMan s : deliveryMEN) {
-            res += s.toString() + "\n";
-        }
+        res += postOfficeWorkers.stream().map(x -> x.toString()).collect(Collectors.joining("\n")) + "\n";
+        res += deliveryMEN.stream().map(x -> x.toString()).collect(Collectors.joining("\n")) + "\n";
+
         res += carDeliveryDepartment.getDrivers();
         res += planeDeliveryDepartment.getPilots();
         return res;

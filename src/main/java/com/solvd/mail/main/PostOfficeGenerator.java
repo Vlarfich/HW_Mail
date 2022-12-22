@@ -15,7 +15,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import java.util.*;
-import java.util.stream.Stream;
 
 
 public final class PostOfficeGenerator {
@@ -44,8 +43,8 @@ public final class PostOfficeGenerator {
         }
     }*/
     private static final Set<String> NAMES = new HashSet<>(Arrays.asList("GEORGE", "MICHAEL", "STEPHEN", "KEVIN", "CHRIS",
-            "DRAYMOND", "NICOLA", "DAVIS", "MARGARET", "LUCY",
-            "PAUL", "GRETTA", "LENA", "DAISY"));
+            "DRAYMOND", "NICOLA", "DAVIS", "MARGARET", "LUCY", "JOHN", "TRAVIS", "ALBERT", "GREG", "RON", "JESSIE",
+            "PAUL", "GRETTA", "LENA", "DAISY", "STEWIE", "PETER"));
 
     /*private enum OFFICE_NAMES {
         SECRET_OFFICE, PALM_OFFICE, RIVER_OFFICE,
@@ -79,7 +78,7 @@ public final class PostOfficeGenerator {
     private static final ArrayList<Character> CATEGORIES = new ArrayList<>();
     private static final ArrayList<String> BIKE_MODELS = new ArrayList<>();
 
-    static final Logger logger = LogManager.getLogger(PostOfficeGenerator.class);
+    static final Logger LOGGER = LogManager.getLogger(PostOfficeGenerator.class);
 
     static {
         POSITIONS.addAll(Arrays.asList("Manager", "Consultant", "Security", "Cleaner", "Accountant", "Cashier"));
@@ -104,7 +103,7 @@ public final class PostOfficeGenerator {
                 throw new EPostOWNameIsNull("POW NAME IS NULL");
             }
         } catch (EPostOWNameIsNull e) {
-            logger.info(e.getMessage());
+            LOGGER.info(e.getMessage());
             name = e.getMessage();
         }
         int age = (int) (Math.random() * 40) + 20;
@@ -134,7 +133,7 @@ public final class PostOfficeGenerator {
                 throw new EPilotNameIsNull("PILOT NAME IS NULL");
             }
         } catch (EPilotNameIsNull e) {
-            logger.info(e.getMessage());
+            LOGGER.info(e.getMessage());
             name = e.getMessage();
             //System.err.println(name);
         }
@@ -167,7 +166,7 @@ public final class PostOfficeGenerator {
                 throw new EDriverNameIsNull("DRIVER NAME IS NULL");
             }
         } catch (EDriverNameIsNull e) {
-            logger.info(e.getMessage());
+            LOGGER.info(e.getMessage());
             name = e.getMessage();
         }
         int age = (int) (Math.random() * 40) + 20;
@@ -203,7 +202,7 @@ public final class PostOfficeGenerator {
                 throw new EDeliveryManNameIsNull("DELIVERYMAN NAME IS NULL");
             }
         } catch (EDeliveryManNameIsNull e) {
-            logger.warn(e.getMessage());
+            LOGGER.warn(e.getMessage());
             name = e.getMessage();
         }
         int age = (int) (Math.random() * 10) + 20;
@@ -261,7 +260,7 @@ public final class PostOfficeGenerator {
                 logMessage += "PLANE DELIVERY DEPARTMENT, ";
             }
             logMessage += "NAME IS NULL";
-            logger.fatal(logMessage);
+            LOGGER.fatal(logMessage);
             throw new EBuildingNameIsNull(logMessage);
         }
 
@@ -270,4 +269,6 @@ public final class PostOfficeGenerator {
             postOffice.addWorker(getDeliveryMan());
         return postOffice;
     }
+
+    public void doSmthng(int a, int b){};
 }
