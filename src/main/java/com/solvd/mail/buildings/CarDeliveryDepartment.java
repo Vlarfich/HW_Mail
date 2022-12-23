@@ -5,6 +5,7 @@ import com.solvd.mail.parcel.Package;
 import com.solvd.mail.person.Driver;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 
@@ -88,9 +89,10 @@ public class CarDeliveryDepartment extends Building {
 
     public String getDrivers(){
         String res = "";
-        for(Driver s : drivers){
-            res += s.toString() + "\n";
-        }
+        res += drivers.stream().map(x -> x.toString()).collect(Collectors.joining("\n"));
+//        for(Driver s : drivers){
+//            res += s.toString() + "\n";
+//        }
         return res;
     }
 

@@ -7,6 +7,7 @@ import com.solvd.mail.person.Pilot;
 import org.apache.logging.log4j.LogManager;
 
 import java.util.ArrayList;
+import java.util.stream.Collectors;
 
 public class PlaneDeliveryDepartment extends Building {
     private int amountOfPlanes;
@@ -85,9 +86,10 @@ public class PlaneDeliveryDepartment extends Building {
 
     public String getPilots() {
         String res = "";
-        for (Pilot s : pilots) {
-            res += s.toString() + "\n";
-        }
+        res += pilots.stream().map(x -> x.toString()).collect(Collectors.joining("\n"));
+//        for (Pilot s : pilots) {
+//            res += s.toString() + "\n";
+//        }
         return res;
     }
 

@@ -402,7 +402,7 @@ public class PostOffice extends Building {
         res += postOfficeWorkers.stream().map(x -> x.toString()).collect(Collectors.joining("\n")) + "\n";
         res += deliveryMEN.stream().map(x -> x.toString()).collect(Collectors.joining("\n")) + "\n";
 
-        res += carDeliveryDepartment.getDrivers();
+        res += carDeliveryDepartment.getDrivers() + "\n";
         res += planeDeliveryDepartment.getPilots();
         return res;
     }

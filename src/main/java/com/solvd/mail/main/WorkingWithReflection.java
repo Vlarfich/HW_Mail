@@ -1,5 +1,6 @@
 package com.solvd.mail.main;
 
+import com.solvd.mail.buildings.PostOffice;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,7 +21,7 @@ public class WorkingWithReflection {
         Set<Class> classes = workingWithReflection.findAllClassesUsingClassLoader("com.solvd.mail.main");
 
         for (Class c : classes) {
-            if(c.getSimpleName().equals("PostOfficeGenerator"))
+            if (c.getSimpleName().equals("PostOfficeGenerator"))
                 continue;
             //Class<?> c = Class.forName("com.solvd.mail.main.PostOfficeGenerator");
             logger.info("\n\n\t****  " + c.getSimpleName() + " ****\n");
@@ -51,17 +52,21 @@ public class WorkingWithReflection {
         try {
             logger.info('\n');
             Class c = Class.forName("com.solvd.mail.main.PostOfficeGenerator");
-            Object postOfficeGen = c.newInstance();
+            Object postOfficeGen = c.getConstructor().newInstance();
             logger.info(postOfficeGen);
 
-            Object postOffice = c.getMethod("getPostOffice").invoke(c.newInstance());
-            logger.info(postOffice);
 
+            PostOffice postOffice = (PostOffice) c.getMethod("getPostOffice").invoke(postOfficeGen);
+            logger.info(postOffice);
+            Method method = postOffice.getClass().getMethod("getWorkers");
+            logger.info(method.invoke(postOffice));
 
             Class main = Class.forName("com.solvd.mail.main.Main");
-            Object menu = main.newInstance();
+            Object menu = main.getConstructor().newInstance();
             main.getMethod("Menu").invoke(menu);
 
+            Method doSmth = c.getMethod("doSmthng", int.class, int.class);
+            doSmth.invoke(postOfficeGen, 1, 2);
 
         } catch (ClassNotFoundException e) {
             logger.fatal(e.getMessage());

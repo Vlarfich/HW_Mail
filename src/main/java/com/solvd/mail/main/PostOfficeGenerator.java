@@ -270,5 +270,7 @@ public final class PostOfficeGenerator {
         return postOffice;
     }
 
-    public void doSmthng(int a, int b){};
+    public void doSmthng(int a, int b){
+        System.out.println("DOING SOMETHING " + a + " * " + b);
+    }
 }
