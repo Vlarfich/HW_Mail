@@ -1,70 +1,57 @@
 package com.solvd.mail.connectionPool;
 
-import java.util.Date;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.text.SimpleDateFormat;
 
+class Tasks {
+    static class Friend {
+        private final String name;
 
-class Tasks implements Runnable {
-    private String taskName;
+        public Friend(String name) {
+            this.name = name;
+        }
 
-    private int amountOfFinishes = 0;
-    private boolean goodToGo_First = true;
-    private boolean goodToGo_Second = true;
+        public String getName() {
+            return this.name;
+        }
 
+        public synchronized void ping(Friend bower) {
+            System.out.format("%s:   ping  %s!%n", this.name, bower.getName());
+            bower.pong(this);
+        }
 
-    public Tasks(String str) {
-        taskName = str;
-    }
-
-    public void run() {
-        try {
-            while (!goodToGo_First) {
-                Thread.sleep(200);
-            }
-            goodToGo_First = !goodToGo_Second;
-
-            Date dt = new Date();
-            SimpleDateFormat sdf = new SimpleDateFormat("hh:mm:ss");
-            System.out.println("Initialization time: " + taskName + " = " + sdf.format(dt) + "  " + amountOfFinishes);
-
-            while (!goodToGo_Second) {
-                Thread.sleep(200);
-            }
-            goodToGo_Second = !goodToGo_First;
-
-            Thread.sleep(1000);
-            System.out.println(taskName + " is complete.");
-            amountOfFinishes++;
-        } catch (InterruptedException ie) {
-            ie.printStackTrace();
+        public synchronized void pong(Friend bower) {
+            System.out.format("%s:   pong  %s!%n", this.name, bower.getName());
         }
     }
-}
-
-public class ThreadPoolExample {
-    static final int MAX_TH = 5;
 
     public static void main(String[] args) {
-        Runnable rb1 = new Tasks("task 1");
-        Runnable rb2 = new Tasks("task 2");
-        Runnable rb3 = new Tasks("task 3");
-        Runnable rb4 = new Tasks("task 4");
-        Runnable rb5 = new Tasks("task 5");
-        Runnable rb6 = new Tasks("task 6");
-        Runnable rb7 = new Tasks("task 7");
+        final Friend A = new Friend("A");
+        final Friend B = new Friend("B");
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
 
-        ExecutorService pl = Executors.newFixedThreadPool(MAX_TH);
+                try {
+                    Thread.sleep(100);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+                A.ping(B);
 
-        for (int i = 0; i < 8; i++) {
-            pl.execute(rb1);
-            pl.execute(rb2);
-            pl.execute(rb3);
-            pl.execute(rb4);
-            pl.execute(rb5);
-            pl.execute(rb6);
-            pl.execute(rb7);
-        }
+            }
+        }).start();
+
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+
+//                try {
+//                    Thread.sleep(100);
+//                } catch (InterruptedException e) {
+//                    throw new RuntimeException(e);
+//                }
+                B.ping(A);
+
+            }
+        }).start();
     }
 }
